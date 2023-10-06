@@ -1,6 +1,20 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, belongsTo, model, property, hasMany} from '@loopback/repository';
+import {Departamento} from './departamento.model';
+import {Mascota} from './mascota.model';
 
-@model()
+@model({
+  settings: {
+    foreignKeys: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      fk_depto_ciudad_id: {
+      name: 'fk_depto_id',
+      entity: 'Departamento',
+        entityKey: 'id',
+        foreignKey: 'departamentoId',
+      },
+    },
+  },
+})
 export class Ciudad extends Entity {
   @property({
     type: 'number',
@@ -15,6 +29,11 @@ export class Ciudad extends Entity {
   })
   nombre: string;
 
+  @belongsTo(() => Departamento)
+  departamentoId: number;
+
+  @hasMany(() => Mascota)
+  mascotas: Mascota[];
 
   constructor(data?: Partial<Ciudad>) {
     super(data);
@@ -22,7 +41,7 @@ export class Ciudad extends Entity {
 }
 
 export interface CiudadRelations {
-  // describe navigational properties here
+
 }
 
 export type CiudadWithRelations = Ciudad & CiudadRelations;

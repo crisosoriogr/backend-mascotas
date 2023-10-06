@@ -4,7 +4,9 @@ import {Entity, model, property} from '@loopback/repository';
 export class EstadoSolicitud extends Entity {
   @property({
     type: 'number',
+    id: true,
     required: true,
+    generated: true
   })
   id: number;
 
